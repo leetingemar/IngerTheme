@@ -320,3 +320,130 @@ Should the current contract require a change (with no version increment), these 
  - [What is JSON Patch?](http://jsonpatch.com/)
 
 https://vm.tiktok.com/ZMLFMKumH/
+
+
+ErrorDetailModel:
+      title: error_detail_information
+      description: error detail information.
+      type: object
+      required:
+        - code
+        - message
+        - target
+      properties:
+        code:
+          type: string
+          description: The source error code.
+          xml:
+            name: Code
+            attribute: true
+        message:
+          type: string
+          description: The error message at the source.
+          xml:
+            name: Message
+        target:
+          type: string
+          description: The target Method where the error was triggered.
+          xml:
+            name: Target
+            attribute: true
+
+    ErrorDataModel:
+      title: error_data
+      description: Error related data.
+      type: object
+      required:
+        - request_id
+        - code
+        - message
+        - target
+      properties:
+        request_id:
+          type: string
+          description: The web request identifier.
+          xml:
+            name: RequestId
+            attribute: true
+        code:
+          type: string
+          description: The source error code.
+          xml:
+            name: Code
+            attribute: true
+        message:
+          type: string
+          description: The error message at the source.
+          xml:
+            name: Message
+        target:
+          type: string
+          description: The target Method where the error was triggered.
+          xml:
+            name: Target
+            attribute: true
+        Details:
+          uniqueItems: true
+          minItems: 0
+          xml:
+              name: ErrorDetail
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetailModel'
+
+    ErrorResponse:
+      title: error_response
+      description: Error response
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ErrorDataModel'
+          xml:
+            name: Data
+
+    PaginationMetadata:
+      title: pagination_metadata
+      description: Pagination metadata information for list responses
+      type: object
+      required:
+        - total_items
+        - page_size
+        - page
+        - next
+        - previous
+      properties:
+        total_items:
+          description: The total items number in the dataset
+          type: integer
+          minimum: 1
+          xml:
+            name: TotalItems
+            attribute: true
+        page_size:
+          description: The requested page size
+          type: integer
+          minimum: 1
+          xml:
+            name: PageSize
+            attribute: true
+        page:
+          description: The current page number
+          type: integer
+          minimum: 1
+          xml:
+            name: PageNumber
+            attribute: true
+        next:
+          description: The query string for the next page call
+          type: string
+          example: '?page=3,pageSize=3'
+          xml:
+            name: NextPage
+            attribute: true
+        previous: 
+          description: The query string for the previous page call
+          type: string
+          example: '?page=3,pageSize=3'
+          xml:
+            name: PrevPage
+            attribute: true
